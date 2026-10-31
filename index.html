@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feliz cumpleaños, Ale · 27</title>
+<meta name="description" content="Un pedacito de internet para los 27 de Ale. Manual para los recién enamorados.">
+<meta name="theme-color" content="#0a0a0d">
+<meta property="og:title" content="Feliz cumpleaños, Ale · 27">
+<meta property="og:description" content="Dicen que si dices su nombre tres veces, aparece la persona más linda del más allá.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --negro:#0a0a0d;
+    --hueso:#f4efe4;
+    --verde:#9dff3c;
+    --morado:#8b5cf6;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--negro);color:var(--hueso);
+    font-family:"Special Elite",ui-monospace,monospace;line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body.locked{overflow:hidden}
+  img,video{max-width:100%;display:block}
+  h1,h2{font-family:"Creepster",cursive;font-weight:400;line-height:.95;letter-spacing:.02em;margin:0}
+
+  /* fondo con niebla morada/verde */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(60vw 60vw at 12% -5%,rgba(139,92,246,.20),transparent 62%),
+      radial-gradient(55vw 55vw at 90% 105%,rgba(157,255,60,.10),transparent 62%);
+  }
+  main{position:relative;z-index:1}
+
+  .cinta{
+    height:16px;width:100%;
+    background:repeating-linear-gradient(90deg,#0a0a0d 0 16px,var(--hueso) 16px 32px);
+    opacity:.9;
+  }
+
+  /* ---------- intro: dilo tres veces ---------- */
+  .intro{
+    position:fixed;inset:0;z-index:100;display:grid;place-items:center;
+    padding:1.5rem;background:#07070a;transition:opacity .9s ease;
+  }
+  .intro::before,.intro::after{
+    content:"";position:absolute;left:0;right:0;height:16px;
+    background:repeating-linear-gradient(90deg,#000 0 16px,var(--hueso) 16px 32px);
+  }
+  .intro::before{top:0}
+  .intro::after{bottom:0}
+  .intro.saliendo{opacity:0;pointer-events:none}
+  .tarjeta-intro{
+    max-width:32rem;width:100%;text-align:center;
+    border:1px solid rgba(244,239,228,.18);background:rgba(10,10,13,.75);
+    padding:clamp(1.75rem,6vw,3rem);box-shadow:0 0 90px -30px var(--morado);
+  }
+  .kicker{
+    margin:0 0 1rem;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+    color:rgba(244,239,228,.55);
+  }
+  .tarjeta-intro h1{font-size:clamp(2.1rem,7vw,3.4rem);margin-bottom:1.75rem}
+  #chant{
+    font-family:"Creepster",cursive;font-size:clamp(1.8rem,6vw,2.6rem);
+    letter-spacing:.22em;padding:.55em 1.1em .45em;cursor:pointer;
+    color:var(--verde);background:transparent;border:2px solid var(--verde);
+    text-shadow:0 0 22px rgba(157,255,60,.5);
+    box-shadow:0 0 30px -8px rgba(157,255,60,.45),inset 0 0 30px -14px rgba(157,255,60,.9);
+    transition:transform .12s ease,box-shadow .25s ease;
+  }
+  #chant:hover,#chant:focus-visible{box-shadow:0 0 46px -6px rgba(157,255,60,.75),inset 0 0 40px -12px rgba(157,255,60,1)}
+  #chant:active{transform:scale(.96)}
+  .ecos{display:flex;justify-content:center;gap:.9rem;margin:1.5rem 0 .25rem}
+  .eco{
+    font-family:"Creepster",cursive;font-size:1.35rem;letter-spacing:.12em;
+    color:rgba(244,239,228,.14);min-width:2.6em;transition:color .35s ease,text-shadow .35s ease;
+  }
+  .eco.on{color:var(--verde);text-shadow:0 0 18px rgba(157,255,60,.7)}
+  #cuenta{margin:.5rem 0 0;font-size:.82rem;letter-spacing:.14em;color:rgba(244,239,228,.6);min-height:1.4em}
+  .pista{margin:1.5rem 0 0;font-size:.78rem;color:rgba(244,239,228,.35)}
+  .flash{position:fixed;inset:0;z-index:120;background:#fff;opacity:0;pointer-events:none}
+  .flash.on{animation:destello .8s ease-out forwards}
+  @keyframes destello{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;min-height:100svh;display:grid;place-items:center;
+    text-align:center;padding:5rem 1.25rem 4rem;overflow:hidden;
+  }
+  .num{
+    position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
+    font-family:"Creepster",cursive;font-size:min(78vw,40rem);line-height:1;
+    color:transparent;-webkit-text-stroke:2px rgba(157,255,60,.16);
+    z-index:0;user-select:none;
+  }
+  .hero-contenido{position:relative;z-index:2;max-width:52rem}
+  .hero .pre{
+    margin:0 0 1.25rem;font-size:.75rem;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--verde);text-shadow:0 0 20px rgba(157,255,60,.5);
+  }
+  .hero h1{
+    font-size:clamp(2.7rem,9.5vw,7rem);
+    text-shadow:0 0 26px rgba(157,255,60,.35),0 0 90px rgba(139,92,246,.45);
+    animation:titilar 6s infinite;
+  }
+  .hero h1 span{color:var(--verde);display:inline-block}
+  @keyframes titilar{
+    0%,44%,52%,100%{opacity:1}
+    46%{opacity:.55}
+    48%{opacity:1}
+    74%{opacity:.85}
+    76%{opacity:1}
+  }
+  .hero .sub{
+    max-width:34rem;margin:1.75rem auto 0;font-size:1rem;
+    color:rgba(244,239,228,.8);
+  }
+  .bajar{
+    margin-top:3rem;display:inline-block;font-size:.75rem;letter-spacing:.28em;
+    text-transform:uppercase;color:rgba(244,239,228,.5);text-decoration:none;
+    animation:flotar 2.6s ease-in-out infinite;
+  }
+  .bajar:hover{color:var(--verde)}
+  @keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+  .fantasma{
+    position:absolute;z-index:1;opacity:.5;filter:drop-shadow(0 0 22px rgba(139,92,246,.6));
+    animation:vaiven 9s ease-in-out infinite;
+  }
+  .f1{width:clamp(60px,9vw,110px);top:14%;left:6%}
+  .f2{width:clamp(40px,6vw,72px);top:26%;right:9%;animation-delay:-3s;opacity:.35}
+  .f3{width:clamp(34px,5vw,58px);bottom:14%;left:18%;animation-delay:-6s;opacity:.28}
+  @keyframes vaiven{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-26px) rotate(4deg)}}
+
+  /* ---------- secciones ---------- */
+  section{position:relative;padding:clamp(4rem,9vw,7rem) 1.25rem}
+  .titulo-seccion{text-align:center;margin-bottom:2.75rem}
+  .titulo-seccion h2{font-size:clamp(2rem,6vw,3.4rem)}
+  .titulo-seccion p{
+    margin:.9rem auto 0;max-width:36rem;font-size:.9rem;color:rgba(244,239,228,.6);
+  }
+
+  /* carta */
+  .libro{
+    max-width:46rem;margin:0 auto;position:relative;
+    background:linear-gradient(180deg,#12101a,#0b0a10);
+    border:1px solid rgba(157,255,60,.22);border-radius:3px;
+    padding:clamp(1.6rem,5.5vw,3.5rem) clamp(1.4rem,5vw,3.5rem);
+    box-shadow:0 40px 90px -40px rgba(139,92,246,.7),inset 0 0 70px rgba(139,92,246,.07);
+  }
+  .libro::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:9px;border-radius:3px 0 0 3px;
+    background:repeating-linear-gradient(180deg,var(--hueso) 0 9px,#0a0a0d 9px 18px);
+    opacity:.75;
+  }
+  .libro h3{
+    font-family:"Creepster",cursive;font-weight:400;font-size:clamp(1.4rem,4.2vw,2rem);
+    color:var(--verde);margin:0 0 .35rem;letter-spacing:.03em;
+  }
+  .libro .autor{
+    margin:0 0 2rem;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;
+    color:rgba(244,239,228,.4);
+  }
+  .libro p{font-size:clamp(.95rem,2.4vw,1.06rem);margin:0 0 1.15rem;color:#e9e3d7}
+  .libro p:last-of-type{margin-bottom:0}
+  .firma{
+    font-family:"Caveat",cursive;font-size:1.7rem;color:var(--verde);
+    margin-top:2rem!important;line-height:1.2;
+  }
+
+  /* galería */
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:clamp(1.2rem,3vw,2.2rem);max-width:60rem;margin:0 auto;
+  }
+  .polaroid{
+    margin:0;background:#f7f3ea;padding:.7rem .7rem 2.9rem;border-radius:2px;
+    position:relative;transform:rotate(var(--r,0deg));
+    box-shadow:0 22px 44px -22px #000;
+    transition:transform .3s ease,box-shadow .3s ease;
+  }
+  .polaroid img{width:100%;aspect-ratio:1/1;object-fit:cover;filter:saturate(.92) contrast(1.05)}
+  .polaroid figcaption{
+    position:absolute;left:0;right:0;bottom:.5rem;padding:0 .6rem;text-align:center;
+    font-family:"Caveat",cursive;font-size:1.3rem;color:#2b2b2b;line-height:1.1;
+  }
+  .polaroid:hover,.polaroid:focus-within{
+    transform:rotate(0deg) scale(1.05);z-index:3;
+    box-shadow:0 28px 60px -20px rgba(139,92,246,.85);
+  }
+  .nota-vacia{
+    text-align:center;color:rgba(244,239,228,.4);font-size:.85rem;
+    border:1px dashed rgba(244,239,228,.15);padding:2.5rem 1.5rem;max-width:34rem;margin:0 auto;
+  }
+
+  /* video */
+  .marco{
+    max-width:54rem;margin:0 auto;padding:14px;border-radius:8px;
+    background:repeating-linear-gradient(90deg,#0a0a0d 0 14px,var(--hueso) 14px 28px);
+    box-shadow:0 40px 90px -40px rgba(157,255,60,.35);
+  }
+  .marco video{width:100%;border-radius:2px;background:#000;aspect-ratio:16/9}
+
+  /* música */
+  #musica-btn{
+    position:fixed;right:1rem;bottom:1rem;z-index:60;
+    font-family:inherit;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--verde);background:rgba(10,10,13,.92);
+    border:1px solid rgba(157,255,60,.45);border-radius:999px;
+    padding:.65rem 1.05rem;cursor:pointer;
+    box-shadow:0 0 26px -8px rgba(157,255,60,.5);
+  }
+  #musica-btn:hover{border-color:var(--verde)}
+  #musica-btn[aria-pressed="false"]{color:rgba(244,239,228,.5);border-color:rgba(244,239,228,.25);box-shadow:none}
+
+  footer{
+    padding:3.5rem 1.25rem 4.5rem;text-align:center;
+    font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
+    color:rgba(244,239,228,.35);
+  }
+  footer span{color:var(--verde)}
+
+  /* confeti */
+  .confeti{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden}
+  .confeti i{
+    position:absolute;top:-8vh;width:9px;height:15px;display:block;
+    animation:caer linear forwards;
+  }
+  @keyframes caer{to{transform:translateY(118vh) rotate(760deg);opacity:.9}}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body class="locked">
+
+<div class="flash" id="flash" aria-hidden="true"></div>
+
+<div class="intro" id="intro">
+  <div class="tarjeta-intro">
+    <p class="kicker">Manual para los recién enamorados</p>
+    <h1>Di su nombre<br>tres veces</h1>
+    <button id="chant" type="button" aria-label="Decir Ale">ALE</button>
+    <div class="ecos" aria-hidden="true">
+      <span class="eco">—</span><span class="eco">—</span><span class="eco">—</span>
+    </div>
+    <p id="cuenta" aria-live="polite">Toca el nombre… (0/3)</p>
+    <p class="pista">(y no, no es Betelgeuse)</p>
+  </div>
+</div>
+
+<main>
+  <header class="hero">
+    <div class="num" aria-hidden="true">27</div>
+
+    <svg class="fantasma f1" viewBox="0 0 100 120" aria-hidden="true">
+      <path d="M50 6C27 6 12 24 12 47v61l12-9 12 9 14-9 14 9 12-9 12 9V47C88 24 73 6 50 6z" fill="#f4efe4" opacity=".9"/>
+      <circle cx="38" cy="46" r="6" fill="#0a0a0d"/><circle cx="62" cy="46" r="6" fill="#0a0a0d"/>
+    </svg>
+    <svg class="fantasma f2" viewBox="0 0 100 120" aria-hidden="true">
+      <path d="M50 6C27 6 12 24 12 47v61l12-9 12 9 14-9 14 9 12-9 12 9V47C88 24 73 6 50 6z" fill="#9dff3c" opacity=".85"/>
+      <circle cx="38" cy="46" r="6" fill="#0a0a0d"/><circle cx="62" cy="46" r="6" fill="#0a0a0d"/>
+    </svg>
+    <svg class="fantasma f3" viewBox="0 0 100 120" aria-hidden="true">
+      <path d="M50 6C27 6 12 24 12 47v61l12-9 12 9 14-9 14 9 12-9 12 9V47C88 24 73 6 50 6z" fill="#8b5cf6" opacity=".9"/>
+      <circle cx="38" cy="46" r="6" fill="#0a0a0d"/><circle cx="62" cy="46" r="6" fill="#0a0a0d"/>
+    </svg>
+
+    <div class="hero-contenido">
+      <p class="pre">27 · cumpleaños</p>
+      <h1>¡Feliz cumpleaños,<br><span>Ale amor</span>!</h1>
+      <p class="sub">
+        27 años de hacer ruido en este mundo. Y en el otro también,
+        porque a tu lado hasta el más allá se pone divertido.
+      </p>
+      <a class="bajar" href="#carta">baja, hay algo para ti ↓</a>
+    </div>
+  </header>
+
+  <div class="cinta" aria-hidden="true"></div>
+
+  <!-- ✏️ EDITA LA CARTA AQUÍ ABAJO -->
+  <section id="carta">
+    <div class="titulo-seccion">
+      <h2>Manual para los recién enamorados</h2>
+      <p>Propiedad de Ale. No se presta, no se vende, no se devuelve.</p>
+    </div>
+
+    <div class="libro">
+      <h3>Capítulo 27: sobre ti</h3>
+      <p class="autor">Edición única · 2026</p>
+
+      <p>Mi amor:</p>
+      <p>
+        Hay cosas que pasan una sola vez cada 27 años, y una de ellas eres tú.
+        Este año no te quería regalar algo que se marchitara o que se acabara el domingo,
+        así que te hice un pedacito de internet: es tuyo, no caduca y vive aquí,
+        con nuestra música, nuestras fotos y nuestras caras raras.
+      </p>
+      <p>
+        Gracias por ser mi persona favorita en este mundo y en el otro.
+        Por reírte de mis chistes malos, por aguantarme cuando soy insoportable
+        y por hacer que lo cotidiano se sienta como una aventura.
+      </p>
+      <p>
+        Que cumplas 27 con la misma energía con la que llegaste a mi vida:
+        sin pedir permiso y haciendo ruido.
+      </p>
+      <p>Te quiero hoy, mañana y en la otra vida.</p>
+      <p class="firma">— Tuyo, siempre.</p>
+    </div>
+  </section>
+
+  <!-- ✏️ FOTOS: ponlas en la carpeta fotos/ con los nombres foto1.jpg … foto8.jpg -->
+  <section id="galeria">
+    <div class="titulo-seccion">
+      <h2>Nosotros, recién difuntos</h2>
+      <p>Pruebas irrefutables de que esto es real.</p>
+    </div>
+    <div class="grid" id="galeria-grid">
+      <p class="nota-vacia" id="galeria-vacia">
+        Las fotos están viajando desde el más allá…
+      </p>
+    </div>
+  </section>
+
+  <!-- ✏️ VIDEO: video/video.mp4 -->
+  <section id="video-sec" hidden>
+    <div class="titulo-seccion">
+      <h2>Nuestra película</h2>
+      <p>Función única, público de uno.</p>
+    </div>
+    <div class="marco">
+      <video id="video" src="video/video.mp4" controls preload="metadata" playsinline>
+        Tu navegador no puede reproducir este video.
+      </video>
+    </div>
+  </section>
+
+  <div class="cinta" aria-hidden="true"></div>
+
+  <footer>
+    Hecho a mano, con amor y un poco de <span>jugo de escarabajo</span> · 2026
+  </footer>
+</main>
+
+<audio id="musica" src="musica/musica.mp3" loop preload="auto"></audio>
+<button id="musica-btn" type="button" aria-pressed="true" hidden>♪ música</button>
+
+<script>
+  const $ = (s) => document.querySelector(s);
+  const intro = $('#intro');
+  const musica = $('#musica');
+  const botonMusica = $('#musica-btn');
+
+  /* ---- dilo tres veces ---- */
+  let dichos = 0;
+  const ecos = document.querySelectorAll('.eco');
+
+  $('#chant').addEventListener('click', () => {
+    if (dichos >= 3) return;
+    ecos[dichos].textContent = 'ALE';
+    ecos[dichos].classList.add('on');
+    dichos++;
+    $('#cuenta').textContent = dichos < 3
+      ? `Toca el nombre… (${dichos}/3)`
+      : '¡Apareció!';
+    if (dichos === 3) entrar();
+  });
+
+  function entrar() {
+    $('#flash').classList.add('on');
+    musica.volume = 0.55;
+    const suena = musica.play();
+    if (suena) {
+      suena.then(() => { botonMusica.hidden = false; })
+           .catch(() => { if (!musica.error) botonMusica.hidden = false; });
+    }
+    setTimeout(() => {
+      intro.classList.add('saliendo');
+      document.body.classList.remove('locked');
+      confeti();
+      setTimeout(() => intro.remove(), 950);
+    }, 700);
+  }
+
+  /* ---- música ---- */
+  musica.addEventListener('error', () => { botonMusica.hidden = true; });
+  botonMusica.addEventListener('click', () => {
+    const suena = musica.paused;
+    if (suena) musica.play().catch(() => {});
+    else musica.pause();
+    botonMusica.setAttribute('aria-pressed', String(suena));
+    botonMusica.textContent = suena ? '♪ música' : '♪ silencio';
+  });
+
+  /* ---- galería ---- */
+  const FOTOS = Array.from({ length: 8 }, (_, i) => `fotos/foto${i + 1}.jpg`);
+  const LEYENDAS = []; // opcional: ['nuestra primera cita', 'playa', …]
+  const grid = $('#galeria-grid');
+  const vacia = $('#galeria-vacia');
+
+  FOTOS.forEach((src, i) => {
+    const fig = document.createElement('figure');
+    fig.className = 'polaroid';
+    fig.style.setProperty('--r', `${(i % 2 ? -1 : 1) * (1.5 + Math.random() * 2)}deg`);
+
+    const img = new Image();
+    img.src = src;
+    img.alt = 'Ale y yo';
+    img.loading = 'lazy';
+    img.addEventListener('load', () => vacia?.remove());
+    img.addEventListener('error', () => fig.remove());
+
+    fig.append(img);
+    if (LEYENDAS[i]) {
+      const cap = document.createElement('figcaption');
+      cap.textContent = LEYENDAS[i];
+      fig.append(cap);
+    }
+    grid.append(fig);
+  });
+
+  /* ---- video (la sección aparece solo si el archivo existe) ---- */
+  $('#video').addEventListener('loadedmetadata', () => { $('#video-sec').hidden = false; });
+
+  /* ---- confeti ---- */
+  function confeti() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const capa = document.createElement('div');
+    capa.className = 'confeti';
+    capa.setAttribute('aria-hidden', 'true');
+    const colores = ['#9dff3c', '#8b5cf6', '#f4efe4', '#6b21a8'];
+    for (let i = 0; i < 60; i++) {
+      const p = document.createElement('i');
+      p.style.left = `${Math.random() * 100}%`;
+      p.style.background = colores[i % colores.length];
+      p.style.animationDuration = `${2.2 + Math.random() * 2.4}s`;
+      p.style.animationDelay = `${Math.random() * 0.9}s`;
+      capa.append(p);
+    }
+    document.body.append(capa);
+    setTimeout(() => capa.remove(), 6000);
+  }
+</script>
+</body>
+</html>
