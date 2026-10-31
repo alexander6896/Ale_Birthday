@@ -32,14 +32,17 @@
   img,video{max-width:100%;display:block}
   h1,h2{font-family:"Creepster",cursive;font-weight:400;line-height:.95;letter-spacing:.02em;margin:0}
 
-  /* fondo: la imagen + niebla morada/verde encima para que el texto se lea */
+  /* fondo: la niebla morada/verde de siempre, con la imagen encima */
   body::before{
     content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     background:
-      radial-gradient(60vw 60vw at 12% -5%,rgba(139,92,246,.22),transparent 62%),
-      radial-gradient(55vw 55vw at 90% 105%,rgba(157,255,60,.12),transparent 62%),
-      linear-gradient(rgba(10,10,13,.72),rgba(10,10,13,.86)),
-      url("fondo/image1.jpeg") center/cover no-repeat;
+      radial-gradient(60vw 60vw at 12% -5%,rgba(139,92,246,.20),transparent 62%),
+      radial-gradient(55vw 55vw at 90% 105%,rgba(157,255,60,.10),transparent 62%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:url("fondo/image1.jpeg") center/cover no-repeat;
+    opacity:.4;
   }
   main{position:relative;z-index:1}
 
