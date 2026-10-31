@@ -22,7 +22,7 @@ musica/musica.mp3                  (opcional)
 
 Todo lo editable está marcado con `<!-- ✏️ ... -->` en `index.html`:
 
-- La carta (`#carta`) y la firma `— Tuyo, siempre.`
+- La carta (`#carta`) y la firma `— Alex (alias bro) Tuyo, siempre.`
 - El nombre: busca `Ale` y `ALE` (aparece en el título, el hero y el botón del hechizo).
 - El texto del hero.
 
