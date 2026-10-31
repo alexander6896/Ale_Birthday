@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Feliz cumpleaños, Ale · 27</title>
 <meta name="description" content="Un pedacito de internet para los 27 de Ale. Manual para los recién enamorados.">
 <meta name="theme-color" content="#0a0a0d">
@@ -21,11 +21,12 @@
     --morado:#8b5cf6;
   }
   *,*::before,*::after{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   body{
     margin:0;background:var(--negro);color:var(--hueso);
     font-family:"Special Elite",ui-monospace,monospace;line-height:1.65;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent;
   }
   body.locked{overflow:hidden}
   img,video{max-width:100%;display:block}
@@ -40,11 +41,23 @@
   }
   main{position:relative;z-index:1}
 
+  /* estrellas */
+  .cielo{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .cielo i{
+    position:absolute;width:3px;height:3px;border-radius:50%;background:var(--hueso);
+    animation:titileo 3s ease-in-out infinite alternate;
+  }
+  @keyframes titileo{from{opacity:.08;transform:scale(.6)}to{opacity:.85;transform:scale(1.25)}}
+
   .cinta{
     height:16px;width:100%;
     background:repeating-linear-gradient(90deg,#0a0a0d 0 16px,var(--hueso) 16px 32px);
     opacity:.9;
   }
+
+  /* aparición al hacer scroll: si el observer no dispara, el contenido igual se ve */
+  .revelar.visible{animation:aparecer .8s ease both}
+  @keyframes aparecer{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 
   /* ---------- intro: dilo tres veces ---------- */
   .intro{
@@ -76,14 +89,14 @@
     box-shadow:0 0 30px -8px rgba(157,255,60,.45),inset 0 0 30px -14px rgba(157,255,60,.9);
     transition:transform .12s ease,box-shadow .25s ease;
   }
-  #chant:hover,#chant:focus-visible{box-shadow:0 0 46px -6px rgba(157,255,60,.75),inset 0 0 40px -12px rgba(157,255,60,1)}
+  #chant:focus-visible{outline:2px solid var(--hueso);outline-offset:4px}
   #chant:active{transform:scale(.96)}
   .ecos{display:flex;justify-content:center;gap:.9rem;margin:1.5rem 0 .25rem}
   .eco{
     font-family:"Creepster",cursive;font-size:1.35rem;letter-spacing:.12em;
-    color:rgba(244,239,228,.14);min-width:2.6em;transition:color .35s ease,text-shadow .35s ease;
+    color:rgba(244,239,228,.14);min-width:2.6em;transition:color .35s ease,text-shadow .35s ease,transform .35s ease;
   }
-  .eco.on{color:var(--verde);text-shadow:0 0 18px rgba(157,255,60,.7)}
+  .eco.on{color:var(--verde);text-shadow:0 0 18px rgba(157,255,60,.7);transform:scale(1.15)}
   #cuenta{margin:.5rem 0 0;font-size:.82rem;letter-spacing:.14em;color:rgba(244,239,228,.6);min-height:1.4em}
   .pista{margin:1.5rem 0 0;font-size:.78rem;color:rgba(244,239,228,.35)}
   .flash{position:fixed;inset:0;z-index:120;background:#fff;opacity:0;pointer-events:none}
@@ -92,15 +105,16 @@
 
   /* ---------- hero ---------- */
   .hero{
-    position:relative;min-height:100svh;display:grid;place-items:center;
+    position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;
     text-align:center;padding:5rem 1.25rem 4rem;overflow:hidden;
   }
   .num{
     position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
     font-family:"Creepster",cursive;font-size:min(78vw,40rem);line-height:1;
     color:transparent;-webkit-text-stroke:2px rgba(157,255,60,.16);
-    z-index:0;user-select:none;
+    z-index:0;user-select:none;animation:deriva 16s ease-in-out infinite;
   }
+  @keyframes deriva{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
   .hero-contenido{position:relative;z-index:2;max-width:52rem}
   .hero .pre{
     margin:0 0 1.25rem;font-size:.75rem;letter-spacing:.42em;text-transform:uppercase;
@@ -128,7 +142,6 @@
     text-transform:uppercase;color:rgba(244,239,228,.5);text-decoration:none;
     animation:flotar 2.6s ease-in-out infinite;
   }
-  .bajar:hover{color:var(--verde)}
   @keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
   .fantasma{
     position:absolute;z-index:1;opacity:.5;filter:drop-shadow(0 0 22px rgba(139,92,246,.6));
@@ -138,6 +151,22 @@
   .f2{width:clamp(40px,6vw,72px);top:26%;right:9%;animation-delay:-3s;opacity:.35}
   .f3{width:clamp(34px,5vw,58px);bottom:14%;left:18%;animation-delay:-6s;opacity:.28}
   @keyframes vaiven{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-26px) rotate(4deg)}}
+
+  /* gusano de arena cruzando el hero */
+  .gusano{
+    position:absolute;left:-190px;bottom:7%;z-index:1;width:160px;height:26px;
+    border-radius:99px;pointer-events:none;
+    background:repeating-linear-gradient(90deg,var(--verde) 0 12px,#0a0a0d 12px 24px);
+    box-shadow:0 0 22px rgba(157,255,60,.55);
+    animation:reptar 15s linear 2s infinite;
+  }
+  .gusano i{
+    position:absolute;top:6px;width:5px;height:5px;border-radius:50%;
+    background:#0a0a0d;box-shadow:0 0 0 2px var(--hueso);
+  }
+  .gusano i:first-child{right:9px}
+  .gusano i:last-child{right:19px}
+  @keyframes reptar{from{transform:translateX(0)}to{transform:translateX(calc(100vw + 220px))}}
 
   /* ---------- secciones ---------- */
   section{position:relative;padding:clamp(4rem,9vw,7rem) 1.25rem}
@@ -191,10 +220,7 @@
     position:absolute;left:0;right:0;bottom:.5rem;padding:0 .6rem;text-align:center;
     font-family:"Caveat",cursive;font-size:1.3rem;color:#2b2b2b;line-height:1.1;
   }
-  .polaroid:hover,.polaroid:focus-within{
-    transform:rotate(0deg) scale(1.05);z-index:3;
-    box-shadow:0 28px 60px -20px rgba(139,92,246,.85);
-  }
+  .polaroid:active{transform:rotate(0deg) scale(1.03)}
   .nota-vacia{
     text-align:center;color:rgba(244,239,228,.4);font-size:.85rem;
     border:1px dashed rgba(244,239,228,.15);padding:2.5rem 1.5rem;max-width:34rem;margin:0 auto;
@@ -210,30 +236,73 @@
 
   /* música */
   #musica-btn{
-    position:fixed;right:1rem;bottom:1rem;z-index:60;
+    position:fixed;right:calc(1rem + env(safe-area-inset-right));
+    bottom:calc(1rem + env(safe-area-inset-bottom));z-index:60;
+    display:flex;align-items:center;
     font-family:inherit;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
     color:var(--verde);background:rgba(10,10,13,.92);
     border:1px solid rgba(157,255,60,.45);border-radius:999px;
     padding:.65rem 1.05rem;cursor:pointer;
     box-shadow:0 0 26px -8px rgba(157,255,60,.5);
   }
-  #musica-btn:hover{border-color:var(--verde)}
   #musica-btn[aria-pressed="false"]{color:rgba(244,239,228,.5);border-color:rgba(244,239,228,.25);box-shadow:none}
+  .eq{display:inline-flex;align-items:flex-end;gap:2px;height:11px;margin-right:.45rem}
+  .eq i{width:2px;height:100%;background:currentColor;border-radius:1px;animation:eq .8s ease-in-out infinite alternate}
+  .eq i:nth-child(2){animation-delay:.2s}
+  .eq i:nth-child(3){animation-delay:.4s}
+  #musica-btn[aria-pressed="false"] .eq i{animation-play-state:paused;height:35%}
+  @keyframes eq{from{height:25%}to{height:100%}}
 
   footer{
-    padding:3.5rem 1.25rem 4.5rem;text-align:center;
+    padding:3.5rem 1.25rem calc(4.5rem + env(safe-area-inset-bottom));text-align:center;
     font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
     color:rgba(244,239,228,.35);
   }
   footer span{color:var(--verde)}
 
   /* confeti */
-  .confeti{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden}
+  .confeti{position:fixed;inset:0;z-index:110;pointer-events:none;overflow:hidden}
   .confeti i{
     position:absolute;top:-8vh;width:9px;height:15px;display:block;
     animation:caer linear forwards;
   }
   @keyframes caer{to{transform:translateY(118vh) rotate(760deg);opacity:.9}}
+  /* ráfaga de cañón desde las esquinas */
+  .confeti.rafaga i{top:auto;bottom:-24px;animation:estallar 2s cubic-bezier(.2,.6,.3,1) forwards}
+  @keyframes estallar{
+    0%{transform:translate(0,0) rotate(0);opacity:1}
+    38%{transform:translate(var(--dx),var(--dy)) rotate(220deg);opacity:1}
+    100%{transform:translate(calc(var(--dx)*1.35),calc(var(--dy) + 45vh)) rotate(760deg);opacity:0}
+  }
+
+  /* ---------- solo donde hay mouse ---------- */
+  @media (hover:hover){
+    #chant:hover{box-shadow:0 0 46px -6px rgba(157,255,60,.75),inset 0 0 40px -12px rgba(157,255,60,1)}
+    .bajar:hover{color:var(--verde)}
+    #musica-btn:hover{border-color:var(--verde)}
+    .polaroid:hover,.polaroid:focus-within{
+      transform:rotate(0deg) scale(1.05);z-index:3;
+      box-shadow:0 28px 60px -20px rgba(139,92,246,.85);
+    }
+  }
+
+  /* ---------- celulares ---------- */
+  @media (max-width:520px){
+    .hero{padding:4.5rem 1rem 3.5rem}
+    .hero .sub{font-size:.92rem}
+    .fantasma{opacity:.3}
+    .f3{display:none}
+    .gusano{width:120px;height:22px;bottom:9%}
+    section{padding:3.5rem 1rem}
+    .titulo-seccion{margin-bottom:2rem}
+    .libro::before{width:7px}
+    .grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem}
+    .polaroid{padding:.5rem .5rem 2.4rem}
+    .polaroid figcaption{font-size:1.1rem;bottom:.4rem}
+    .marco{padding:8px}
+    .tarjeta-intro{padding:1.6rem 1.2rem}
+    footer{padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
+  }
 
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
@@ -274,6 +343,8 @@
       <path d="M50 6C27 6 12 24 12 47v61l12-9 12 9 14-9 14 9 12-9 12 9V47C88 24 73 6 50 6z" fill="#8b5cf6" opacity=".9"/>
       <circle cx="38" cy="46" r="6" fill="#0a0a0d"/><circle cx="62" cy="46" r="6" fill="#0a0a0d"/>
     </svg>
+
+    <div class="gusano" aria-hidden="true"><i></i><i></i></div>
 
     <div class="hero-contenido">
       <p class="pre">27 · cumpleaños</p>
@@ -334,7 +405,7 @@
   </section>
 
   <!-- ✏️ VIDEO: video/video.mp4 -->
-  <section id="video-sec" hidden>
+  <section id="video-sec">
     <div class="titulo-seccion">
       <h2>Nuestra película</h2>
       <p>Función única, público de uno.</p>
@@ -354,13 +425,33 @@
 </main>
 
 <audio id="musica" src="musica/musica.mp3" loop preload="auto"></audio>
-<button id="musica-btn" type="button" aria-pressed="true" hidden>♪ música</button>
+<button id="musica-btn" type="button" aria-pressed="true" hidden>
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musica-txt">música</span>
+</button>
 
 <script>
   const $ = (s) => document.querySelector(s);
+  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const intro = $('#intro');
   const musica = $('#musica');
   const botonMusica = $('#musica-btn');
+  const etiquetaMusica = $('#musica-txt');
+
+  /* ---- estrellas de fondo ---- */
+  if (!reducido) {
+    const cielo = document.createElement('div');
+    cielo.className = 'cielo';
+    cielo.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 30; i++) {
+      const s = document.createElement('i');
+      s.style.left = `${Math.random() * 100}%`;
+      s.style.top = `${Math.random() * 100}%`;
+      s.style.animationDelay = `${Math.random() * 4}s`;
+      s.style.animationDuration = `${2.5 + Math.random() * 3}s`;
+      cielo.append(s);
+    }
+    document.body.prepend(cielo);
+  }
 
   /* ---- dilo tres veces ---- */
   let dichos = 0;
@@ -379,6 +470,7 @@
 
   function entrar() {
     $('#flash').classList.add('on');
+    rafaga(80);
     musica.volume = 0.55;
     const suena = musica.play();
     if (suena) {
@@ -400,7 +492,7 @@
     if (suena) musica.play().catch(() => {});
     else musica.pause();
     botonMusica.setAttribute('aria-pressed', String(suena));
-    botonMusica.textContent = suena ? '♪ música' : '♪ silencio';
+    etiquetaMusica.textContent = suena ? 'música' : 'silencio';
   });
 
   /* ---- galería ---- */
@@ -410,36 +502,38 @@
   const vacia = $('#galeria-vacia');
 
   FOTOS.forEach((src, i) => {
-    const fig = document.createElement('figure');
-    fig.className = 'polaroid';
-    fig.style.setProperty('--r', `${(i % 2 ? -1 : 1) * (1.5 + Math.random() * 2)}deg`);
-
     const img = new Image();
-    img.src = src;
     img.alt = 'Ale y yo';
-    img.loading = 'lazy';
-    img.addEventListener('load', () => vacia?.remove());
-    img.addEventListener('error', () => fig.remove());
-
-    fig.append(img);
-    if (LEYENDAS[i]) {
-      const cap = document.createElement('figcaption');
-      cap.textContent = LEYENDAS[i];
-      fig.append(cap);
-    }
-    grid.append(fig);
+    img.addEventListener('load', () => {
+      vacia?.remove();
+      const fig = document.createElement('figure');
+      fig.className = 'polaroid';
+      fig.style.setProperty('--r', `${(i % 2 ? -1 : 1) * (1.5 + Math.random() * 2)}deg`);
+      fig.append(img);
+      if (LEYENDAS[i]) {
+        const cap = document.createElement('figcaption');
+        cap.textContent = LEYENDAS[i];
+        fig.append(cap);
+      }
+      grid.append(fig);
+    });
+    img.src = src;
   });
 
-  /* ---- video (la sección aparece solo si el archivo existe) ---- */
-  $('#video').addEventListener('loadedmetadata', () => { $('#video-sec').hidden = false; });
+  /* ---- video (la sección se oculta si el archivo no existe) ---- */
+  const video = $('#video');
+  const ocultarVideo = () => { $('#video-sec').hidden = true; };
+  video.addEventListener('error', ocultarVideo);
+  if (video.error) ocultarVideo();
 
   /* ---- confeti ---- */
+  const colores = ['#9dff3c', '#8b5cf6', '#f4efe4', '#6b21a8', '#c084fc'];
+
   function confeti() {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (reducido) return;
     const capa = document.createElement('div');
     capa.className = 'confeti';
     capa.setAttribute('aria-hidden', 'true');
-    const colores = ['#9dff3c', '#8b5cf6', '#f4efe4', '#6b21a8'];
     for (let i = 0; i < 60; i++) {
       const p = document.createElement('i');
       p.style.left = `${Math.random() * 100}%`;
@@ -451,6 +545,46 @@
     document.body.append(capa);
     setTimeout(() => capa.remove(), 6000);
   }
+
+  function rafaga(cantidad = 60) {
+    if (reducido) return;
+    const capa = document.createElement('div');
+    capa.className = 'confeti rafaga';
+    capa.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < cantidad; i++) {
+      const p = document.createElement('i');
+      const izquierda = i % 2 === 0;
+      p.style.left = izquierda ? '2%' : '98%';
+      p.style.background = colores[i % colores.length];
+      p.style.setProperty('--dx', `${(izquierda ? 1 : -1) * (8 + Math.random() * 52)}vw`);
+      p.style.setProperty('--dy', `${-(28 + Math.random() * 45)}vh`);
+      p.style.animationDelay = `${Math.random() * 0.25}s`;
+      p.style.animationDuration = `${1.7 + Math.random() * 0.9}s`;
+      capa.append(p);
+    }
+    document.body.append(capa);
+    setTimeout(() => capa.remove(), 4000);
+  }
+
+  /* ---- aparición al hacer scroll (la clase se pone por JS: si falla, todo se ve) ---- */
+  const aRevelar = document.querySelectorAll('.titulo-seccion, .libro, .grid, .marco');
+  if ('IntersectionObserver' in window && !reducido) {
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observador.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    aRevelar.forEach((el) => {
+      el.classList.add('revelar');
+      observador.observe(el);
+    });
+  }
+
+  /* ---- ráfaga de bienvenida ---- */
+  setTimeout(() => rafaga(55), 450);
 </script>
 </body>
 </html>
