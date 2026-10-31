@@ -235,9 +235,18 @@
   .marco video{width:100%;border-radius:2px;background:#000;aspect-ratio:16/9}
 
   /* música */
-  #musica-btn{
+  #controles{
     position:fixed;right:calc(1rem + env(safe-area-inset-right));
     bottom:calc(1rem + env(safe-area-inset-bottom));z-index:60;
+    display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;
+  }
+  #velocidad-btn{
+    font-family:inherit;font-size:.68rem;letter-spacing:.12em;
+    color:var(--verde);background:rgba(10,10,13,.92);
+    border:1px solid rgba(157,255,60,.45);border-radius:999px;
+    padding:.4rem .8rem;cursor:pointer;min-width:3.6rem;
+  }
+  #musica-btn{
     display:flex;align-items:center;
     font-family:inherit;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
     color:var(--verde);background:rgba(10,10,13,.92);
@@ -280,6 +289,7 @@
     #chant:hover{box-shadow:0 0 46px -6px rgba(157,255,60,.75),inset 0 0 40px -12px rgba(157,255,60,1)}
     .bajar:hover{color:var(--verde)}
     #musica-btn:hover{border-color:var(--verde)}
+    #velocidad-btn:hover{border-color:var(--verde)}
     .polaroid:hover,.polaroid:focus-within{
       transform:rotate(0deg) scale(1.05);z-index:3;
       box-shadow:0 28px 60px -20px rgba(139,92,246,.85);
@@ -425,9 +435,12 @@
 </main>
 
 <audio id="musica" src="musica/musica.mp3" loop preload="auto"></audio>
-<button id="musica-btn" type="button" aria-pressed="true" hidden>
-  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musica-txt">música</span>
-</button>
+<div id="controles">
+  <button id="velocidad-btn" type="button" aria-label="Velocidad de la música" hidden>1×</button>
+  <button id="musica-btn" type="button" aria-pressed="true" hidden>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="musica-txt">música</span>
+  </button>
+</div>
 
 <script>
   const $ = (s) => document.querySelector(s);
@@ -474,8 +487,8 @@
     musica.volume = 0.55;
     const suena = musica.play();
     if (suena) {
-      suena.then(() => { botonMusica.hidden = false; })
-           .catch(() => { if (!musica.error) botonMusica.hidden = false; });
+      suena.then(() => { botonMusica.hidden = false; botonVelocidad.hidden = false; })
+           .catch(() => { if (!musica.error) { botonMusica.hidden = false; botonVelocidad.hidden = false; } });
     }
     setTimeout(() => {
       intro.classList.add('saliendo');
@@ -486,13 +499,34 @@
   }
 
   /* ---- música ---- */
-  musica.addEventListener('error', () => { botonMusica.hidden = true; });
-  botonMusica.addEventListener('click', () => {
-    const suena = musica.paused;
-    if (suena) musica.play().catch(() => {});
-    else musica.pause();
+  const botonVelocidad = $('#velocidad-btn');
+  const VELOCIDADES = [1, 1.25, 1.5, 0.75];
+  let velocidad = 0;
+
+  // el bucle nunca termina, aunque el navegador se salte el loop
+  musica.addEventListener('ended', () => {
+    musica.currentTime = 0;
+    musica.play().catch(() => {});
+  });
+
+  function pintarMusica() {
+    const suena = !musica.paused;
     botonMusica.setAttribute('aria-pressed', String(suena));
     etiquetaMusica.textContent = suena ? 'música' : 'silencio';
+  }
+  musica.addEventListener('play', pintarMusica);
+  musica.addEventListener('pause', pintarMusica);
+
+  musica.addEventListener('error', () => { botonMusica.hidden = true; botonVelocidad.hidden = true; });
+  botonMusica.addEventListener('click', () => {
+    if (musica.paused) musica.play().catch(() => {});
+    else musica.pause();
+  });
+
+  botonVelocidad.addEventListener('click', () => {
+    velocidad = (velocidad + 1) % VELOCIDADES.length;
+    musica.playbackRate = VELOCIDADES[velocidad];
+    botonVelocidad.textContent = `${VELOCIDADES[velocidad]}×`;
   });
 
   /* ---- galería ---- */
@@ -525,6 +559,20 @@
   const ocultarVideo = () => { $('#video-sec').hidden = true; };
   video.addEventListener('error', ocultarVideo);
   if (video.error) ocultarVideo();
+
+  /* el video manda: la música se calla mientras el video suena */
+  let reanudarMusica = false;
+  video.addEventListener('play', () => {
+    reanudarMusica = !musica.paused;
+    musica.pause();
+  });
+  const volverMusica = () => {
+    if (!reanudarMusica) return;
+    reanudarMusica = false;
+    musica.play().catch(() => {});
+  };
+  video.addEventListener('pause', volverMusica);
+  video.addEventListener('ended', volverMusica);
 
   /* ---- confeti ---- */
   const colores = ['#9dff3c', '#8b5cf6', '#f4efe4', '#6b21a8', '#c084fc'];
